@@ -1,0 +1,368 @@
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+textarea {
+  @include border-radius;
+  @include box-shadow(inset 0 1px 2px rgba(0,0,0,0.1));
+  @include transition(all 0.15s linear);
+  background-color: $white;
+  border: 1px solid $primaryBorder;
+  color: $primaryBlack;
+  margin-bottom: 5px;
+  padding: 7px;
+
+  &:focus {
+    background: $bgSubtle;
+    outline: none;
+    border-color: darken($primaryBorder, 20%);
+  }
+
+  &[disabled] {
+    background-color: $bgDisabled;
+    color: $textDisabled;
+  }
+
+  &.error {
+    border: 1px solid $red;
+  }
+}
+
+select {
+  @include border-radius;
+  background-color: $white;
+  border: 1px solid $primaryBorder;
+  color: lighten($primaryBlack, 20%);
+  height: 2.2em;
+  line-height: 2.2em;
+  margin-bottom: 5px;
+  padding: 6px;
+
+  &[multiple],
+  &[size] {
+    height: auto;
+  }
+
+  &[disabled] {
+    background-color: $bgDisabled;
+    color: $textDisabled;
+  }
+}
+
+input[type="file"] {
+  height: 2.2em;
+  line-height: 1.4em;
+}
+
+.marker,
+.form-required {
+  color: $red;
+}
+
+// buttons
+button,
+input[type="submit"],
+input[type="image"] {
+  @extend %button-default;
+
+  &.secondary-action,
+  &#edit-add {
+    @extend %button-blue-medium;
+  }
+}
+
+input[type="image"] {
+  padding: 0.5em 1em;
+}
+
+#edit-submit,
+#edit-actions-submit,
+#edit-actions-save,
+#edit-next {
+  @extend %button-green;
+}
+
+#edit-delete,
+#edit-remove,
+.button.remove {
+  @extend %button-red;
+}
+
+a#edit-cancel,
+.button,
+.fake-cancel {
+  @extend %button-link;
+}
+
+// labels
+label {
+  color: $primaryBlackBold;
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0.25em 0;
+
+  &.option {
+    display: inline;
+    font-weight: normal;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Fieldsets
+
+fieldset {
+  @include border-radius;
+  border: 1px solid darken($primaryWhite, 6%);
+  margin: 0 0 1em;
+  padding: 2.5em 0.625em 0.35em;
+  position: relative;
+
+  &.fieldset-no-legend {
+    padding-top: 0.35em;
+  }
+
+  .fieldset-legend {
+    @include border-top-radius(2px);
+    background: $primaryWhite;
+    border-bottom: 1px solid darken($primaryWhite, 10%);
+    color: $primaryBlackBold;
+    display: block;
+    font-weight: bold;
+    padding: 5px 8px;
+    position: absolute;
+    text-shadow: 0 1px 0 $white;
+    top: 1px;
+    right: 1px;
+    left: 1px;
+
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &.collapsible {
+    .fieldset-legend a:before {
+      content: '\25BE';
+      display: inline-block;
+      width: 15px;
+    }
+  }
+
+  &.container-inline {
+    padding-top: 3.5em;
+  }
+
+  &.container-inline.fieldset-no-legend {
+    padding-top: 0.35em;
+  }
+
+  .exposed-filters {
+    padding-top: 1em;
+  }
+
+  html.js &.collapsed {
+    border-width: 1px;
+    height: 26px;
+    padding-top: 0;
+
+    .fieldset-legend {
+      @include border-bottom-radius(2px);
+      border-bottom: none;
+
+      a:before {
+        content: '\25B8';
+        color: darken($textMuted, 10%);
+      }
+    }
+  }
+}
+
+.fieldset-legend span.summary {
+  color: darken($textMuted, 10%);
+  font-size: 0.9em;
+  margin-left: 0.5em;
+}
+
+.fieldset-description {
+  margin: 1em 0;
+}
+
+// ---------------------------------------------------------------------------
+// Form API
+.form-item,
+.form-actions {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+tr.odd .form-item,
+tr.even .form-item {
+  margin-top: 0;
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+.form-checkboxes .form-item,
+.form-radios .form-item {
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+
+.form-type-radio .description,
+.form-type-checkbox .description {
+  margin-left: 1.4em;
+}
+
+input.form-checkbox,
+input.form-radio {
+  vertical-align: middle;
+}
+
+.container-inline .form-actions,
+.container-inline.form-actions {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Vertical tabs
+
+div.vertical-tabs {
+  @include border-right-radius;
+  border-color: $primaryBorder;
+
+  ul.vertical-tabs-list {
+    @include border-left-radius;
+    @include box-sizing(border-box);
+    border-color: $primaryBorder;
+    border-left: 1px solid $primaryBorder;
+
+    li {
+      background: $primaryWhite;
+      border-color: $primaryBorder;
+      border-left: none;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+
+      &.first {
+        @include border-top-left-radius;
+      }
+
+      &.last {
+        @include border-bottom-left-radius;
+      }
+
+      strong {
+        color: darken($textMuted, 10%);
+      }
+
+      &.selected {
+        a strong {
+          color: darken($primaryColor, 10%);
+        }
+      }
+    }
+
+    a .summary {
+      color: $textMuted;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Vertical additional settings (Node form sidebar)
+
+.fieldsets-group {
+  @include border-radius;
+  background: $primaryWhite;
+  border: 1px solid $primaryBorder;
+  margin: 1em 0;
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+
+    legend {
+      width: 100%;
+    }
+
+    .fieldset-legend {
+      @include border-radius(0);
+      border: none;
+      border-bottom: 1px solid $primaryBorder;
+      position: relative;
+      display: block;
+      padding: 8px;
+      left: 0;
+      right: 0;
+
+      a {
+        color: darken($primaryColor, 20%);
+      }
+    }
+
+    .fieldset-wrapper {
+      background: $white;
+      border-bottom: 1px solid $primaryBorder;
+      padding: 1px 23px;
+    }
+
+    html.js &.collapsed {
+      border-width: 0;
+      height: auto;
+
+      .fieldset-legend {
+        @include border-radius(0);
+        border-bottom: 1px solid $primaryBorder;
+
+        a {
+          color: darken($primaryColor, 10%);
+        }
+      }
+    }
+
+    .form-text {
+      width: 100%;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Autocomplete
+
+html.js input.form-autocomplete {
+  background-position: 99.5% 9px;
+}
+
+html.js input.throbbing {
+  background-position: 99.5% -13px;
+}
+
+#autocomplete {
+  @include border-bottom-radius;
+  @include box-shadow(inset 0 1px 2px rgba(0,0,0,0.1));
+  background: $bgSubtle;
+  border-color: darken($primaryBorder, 15%);
+  border-top: 0;
+  margin-top: -4px;
+
+  li {
+    background: transparent;
+    padding: 0.25em 0.5em;
+
+    &.selected {
+      background: $primaryColor;
+      color: #fff;
+    }
+  }
+}

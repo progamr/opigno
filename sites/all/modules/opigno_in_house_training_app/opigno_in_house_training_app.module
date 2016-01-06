@@ -1,0 +1,575 @@
+<?php
+
+/**
+ * Implements hook_permission().
+ */
+function opigno_in_house_training_app_permission() {
+  return array(
+    'score in_house_app content' => array(
+      'title' => t("Score student results"),
+    ));
+}
+
+/**
+ * Implements hook_og_permission().
+ */
+function opigno_in_house_training_app_og_permission() {
+  return array(
+    'view in_house_app content' => array(
+      'title' => t("Allows the user to view in_house_lessons"),
+      'description' => t("Allows the user to view in_house_lessons"),
+    ),
+    'score in_house_app content' => array(
+      'title' => t("Allows the user to score in_house_lessons"),
+      'description' => t("Allows the user to score in_house_lessons"),
+    ),
+  );
+}
+
+/**
+ * Implements hook_opigno_tool().
+ */
+function opigno_in_house_training_app_opigno_tool($node = NULL) {
+  return array(
+    'in_house' => array(
+      'name' => t("In house training"),
+      'path' => isset($node) ? "node/{$node->nid}/in_house_training" : '',
+      'description' => t("The in house training for this course"),
+      'actions' => array(
+        'add_in_house_training' => array(
+          'title' => t("Add new in house training"),
+          'href' => 'node/add/in-house-training',
+          'access_arguments' => array('node', isset($node) ? $node->nid : 0, 'create in_house_training content'),
+          'access_callback' => 'og_user_access',
+          'query' => array(
+            'og_group_ref' => isset($node) ? $node->nid : '',
+          )
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function opigno_in_house_training_app_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if ($root_path == 'node/%/in_house_training') {
+    $gid = arg(1);
+    if (og_user_access('node', $gid, 'create in_house_training content')) {
+      $item = menu_get_item('node/add/in-house-training');
+      $item['title'] = t("Add new in house training");
+      $item['options']['query']['og_group_ref'] = $item['localized_options']['query']['og_group_ref'] = $gid;
+      $item['options']['attributes']['class'][] = $item['localized_options']['attributes']['class'][] = 'opigno-quiz-app-add-in-house-training';
+      $data['actions']['output'][] = array(
+        '#theme' => 'menu_local_action',
+        '#link' => $item,
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function opigno_in_house_training_app_views_api() {
+  return array(
+    'api' => '3.0',
+  );
+}
+
+function opigno_in_house_training_app_form_alter(&$form, &$form_state, $form_id) {
+  /// If is in_house_training_form
+  if (($form['#form_id'] == 'in_house_training_node_form') && (isset($form['#node_edit_form']) && ($form['#node_edit_form']))) {
+    // Is insert
+    if (is_null($form['nid']['#value'])) {
+      $form['opigno_calendar_date']['#access'] = FALSE;
+      array_unshift($form['#submit'],'opigno_in_house_training_recursive_submit');
+    }
+    // Is edit
+    else {
+      $form['opigno_iht_dates']['#access'] = FALSE;
+    }
+  }
+}
+
+function opigno_in_house_training_recursive_submit($form, &$form_state) {
+  $field=field_info_field("opigno_iht_dates");
+  $unixdate = strtotime($form_state['values']['opigno_iht_dates'][LANGUAGE_NONE][0]['value'].' '.date_get_timezone_db($field['settings']['tz_handling']));
+  $form_state['values']['title']=$form_state['values']['title']." ".format_date($unixdate,'custom','d-m-Y H:i',$form_state['values']['opigno_iht_dates'][LANGUAGE_NONE][0]['timezone']);
+  $form_state['values']['opigno_calendar_date'][LANGUAGE_NONE][0]=$form_state['values']['opigno_iht_dates'][LANGUAGE_NONE][0];
+}
+
+
+function opigno_in_house_training_app_node_insert($node) {
+  if ($node->type == "in_house_training") {
+    foreach ($node->opigno_iht_dates[LANGUAGE_NONE] as $index => $date) {
+      if ($index != 0)
+      {
+        $new_node = $node;
+        unset($new_node->nid);
+        unset($new_node->vid);
+        unset($new_node->opigno_iht_dates);
+        $title=explode(" ",$node->title);
+        array_pop($title);
+        array_pop($title);
+        $unixdate = strtotime($date['value'].' '.$date['timezone_db']);
+        $title=implode(" ",$title);
+        $new_node->title = $title." ".format_date($unixdate,'custom','d-m-Y H:i',$date['timezone']);
+        $new_node->opigno_calendar_date[LANGUAGE_NONE][0] = $date;
+        node_save($new_node);
+      }
+      else
+      {
+        node_access_acquire_grants($node);
+      }
+    }
+  }
+}
+
+function opigno_in_house_training_app_menu() {
+  $items = array();
+  $items['node/%node/score'] = array(
+    'title' => 'Score in house lesson',
+    'description' => 'Score in house lesson',
+    'page callback' => 'opigno_in_house_score_page', // the function to be called when link is clicked [below]
+    'page arguments' => array(1), // arguments for the callback function 'profile_use_page'
+    'access callback' => "opigno_in_house_training_app_access_score",
+    'access arguments' => array(1), // permission
+    'type' => MENU_LOCAL_TASK,
+  );
+  return $items;
+}
+
+/**
+ * Access callback:
+ *
+ * @param  stdClass $node
+ * @param  stdClass $account = NULL
+ *
+ * @return bool
+ */
+function opigno_in_house_training_app_access_score($node, $account = NULL) {
+  if (!($node->type=="in_house_training"))
+  {
+    return false;
+  }
+  if (!isset($account)) {
+    global $user;
+    $account = clone $user;
+  }
+  if (module_exists('og_context')) {
+    $group = og_context('node');
+    if (!empty($group)) {
+      return og_user_access('node', $group['gid'], 'score in_house_app content', $account);
+    }
+    else {
+      return user_access('score in_house_app content', $account);
+    }
+  }
+}
+
+function opigno_in_house_score_page($node)
+{
+  return drupal_get_form('opigno_in_house_training_score_form',$node);
+}
+
+function opigno_in_house_training_score_form($form, &$form_state,$node) {
+  $form['submit_scores'] = array(
+    '#type' => 'fieldset',
+    '#title' => $form_state['build_info']['args'][0]->title,
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+    '#prefix' => '<table><thead><tr><th>' . t("Student name") . '</th><th>' . t("Attendance") . '</th><th>' . t("Score") . '</th></tr></thead><tbody>',
+    '#suffix' => '</tbody></table>',
+  );
+  $group = og_context('node');
+  if (!empty($group['gid'])) {
+    $memberships = opigno_in_house_training_get_users_membership($group['gid']);
+    $next=false;
+    $nextlink="";
+    $lessons=opigno_in_house_training_app_get_all_iht($group['gid']);
+    if (isset($lessons[$group['gid']]))
+    {
+      foreach($lessons[$group['gid']] as $ihl_id => $ihl)
+      {
+        if ($next==true)
+        {
+          $nextlink="node/".$ihl_id."/score";
+          break;
+        }
+        if ($ihl_id==$node->nid)
+        {
+          $next=true;
+        }
+      }
+    }
+
+    foreach ($memberships as $m_id => $membership_id) {
+      $og_membership = og_membership_load($membership_id);
+      //Check if user is a student (not a teacher, not a coach and not a manager)
+      $user_roles_in_group = og_get_user_roles($og_membership->group_type, $og_membership->gid, $og_membership->etid);
+      $non_student_roles = array('manager', 'teacher', 'coach');
+      if (count(array_intersect($user_roles_in_group, $non_student_roles)) == 0) {
+        $user = user_load($og_membership->etid);
+        $defaults = opigno_in_house_training_score_form_get_default_value($form_state['build_info']['args'][0]->nid, $user->uid);
+        $form['submit_scores']['name_' . $user->uid] = array(
+          '#type' => 'item',
+          '#title' => $user->name,
+          '#prefix' => '<tr><td>',
+          '#suffix' => '</td>',
+        );
+        $form['submit_scores']['status_' . $user->uid] = array(
+          '#type' => 'select',
+          '#options' => array(
+            0 => t('Absent'),
+            1 => t('Attended'),
+          ),
+          '#default_value' => $defaults['status'],
+          '#prefix' => '<td>',
+          '#suffix' => '</td>',
+        );
+        $form['submit_scores']['score_' . $user->uid] = array(
+          '#type' => 'textfield',
+          '#size' => '10',
+          '#required' => FALSE,
+          '#prefix' => '<td>',
+          '#suffix' => '</td></tr>',
+          '#default_value' => $defaults['score'],
+        );
+      }
+    }
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Score attendance'),
+    '#submit' => array('opigno_in_house_training_score_form_submit'),
+    '#prefix' => '<div class="form-submits">',
+  );
+
+  if (($next==true)&&!empty($nextlink))
+  {
+    $form['store'] = array(
+      '#type' => 'value',
+      '#value' => $nextlink,
+    );
+
+    $form['submit_1'] = array(
+      '#type' => 'submit',
+      '#value' => t('Score and go to next'),
+      '#submit' => array('opigno_in_house_training_score_form_submit_1'),
+      '#suffix' => '</div>',
+    );
+  }
+  else
+  {
+    $form['submit']['#suffix'] = '</div>';
+
+  }
+  return $form;
+}
+
+
+function opigno_in_house_training_score_form_validate($form, &$form_state)
+{
+  foreach($form_state['values'] as $index => $element)
+  {
+     if (opigno_in_house_training_startsWith($index,'score_'))
+     {
+       if ((!is_numeric($element['#value']))||($element['#value']<0)||($element['#value']>100))
+       {
+         form_set_error($index, t('Score must be integer (0-100)'));
+       }
+     }
+  }
+}
+
+function opigno_in_house_training_score_form_submit($form, &$form_state) {
+  foreach ($form_state['values'] as $index => $element) {
+    if (opigno_in_house_training_startsWith($index, 'score_')) {
+      $uid = explode("score_", $index);
+      $uid = $uid[1];
+      opigno_in_house_training_score_form_set_value($form_state['build_info']['args'][0]->nid, $uid, $element, $form_state['values']['status_' . $uid]);
+      opigno_in_house_training_app_int_finished($form_state['build_info']['args'][0]->nid,$element,$form_state['values']['status_' . $uid],$uid);
+    }
+  }
+}
+
+function opigno_in_house_training_score_form_submit_1($form, &$form_state) {
+  foreach ($form_state['values'] as $index => $element) {
+    if (opigno_in_house_training_startsWith($index, 'score_')) {
+      $uid = explode("score_", $index);
+      $uid = $uid[1];
+      opigno_in_house_training_score_form_set_value($form_state['build_info']['args'][0]->nid, $uid, $element, $form_state['values']['status_' . $uid]);
+      opigno_in_house_training_app_int_finished($form_state['build_info']['args'][0]->nid,$element,$form_state['values']['status_' . $uid],$uid);
+    }
+  }
+  drupal_goto($form_state['values']['store']);
+}
+
+
+function opigno_in_house_training_app_int_finished($ihtid, $score,$status, $taker = NULL)
+{
+  if (module_exists('rules')) {
+    $taker=user_load($taker);
+    $iht=node_load($ihtid);
+    $author = user_load($iht->uid);
+    if ((int)$status==1)
+    {
+        $hook_name = 'opigno_in_house_training_finished';
+        foreach (module_implements($hook_name) as $module) {
+          $function = $module.'_'.$hook_name;
+          $function($taker, $iht, $score);
+        }
+        
+        foreach($iht->og_group_ref[LANGUAGE_NONE] as $index => $value)
+        {
+          if (opigno_quiz_app_user_passed($value['target_id'],$taker->uid))
+          {
+            rules_invoke_event('opigno_quiz_app_rules_quiz_passed', $taker, $author, $iht);
+            drupal_get_messages();
+          }
+        }
+    }
+  }
+}
+
+function opigno_in_house_training_score_form_set_value($ihtid, $uid, $score, $status) {
+  db_merge('opigno_in_house_training_results')
+    ->key(array('in_house_training_nid' => $ihtid, 'uid' => $uid))
+    ->fields(array(
+      'in_house_training_nid' => $ihtid,
+      'score' => $score,
+      'status' => $status,
+      'uid' => $uid,
+    ))
+    ->execute();
+}
+
+function opigno_in_house_training_score_form_get_default_value($ihtid, $uid) {
+  $result = db_query('SELECT oihr.score, oihr.status FROM {opigno_in_house_training_results} oihr WHERE oihr.in_house_training_nid = :ihtid and oihr.uid = :uid', array(':ihtid' => $ihtid,':uid' => $uid));
+  $result_['score']='';
+  $result_['status']='';
+  foreach ($result as $record) {
+    $result_['score']=$record->score;
+    $result_['status']=$record->status;
+  }
+  return $result_;
+}
+
+
+function opigno_in_house_training_get_users_membership($gid) {
+  $query = db_select('og_membership', 'og_m');
+  $query->condition('entity_type', "user", '=')
+    ->condition('gid', $gid, '=')
+    ->fields('og_m');
+  $result = $query->execute();
+  $memberships = array();
+  while ($record = $result->fetchAssoc()) {
+    $memberships[$record['id']] = $record['id'];
+  }
+  return $memberships;
+}
+
+function opigno_in_house_training_startsWith($haystack, $needle, $case = TRUE)
+{
+  if ($case) {
+    return (strcmp(substr($haystack, 0, strlen($needle)), $needle) === 0);
+  }
+  return (strcasecmp(substr($haystack, 0, strlen($needle)), $needle) === 0);
+}
+
+
+
+/////////////////////////////////////////// Group interface ////////////////////////////////////////////////////
+/**
+ * Implements hook_preprocess_page().
+ */
+function opigno_in_house_training_app_preprocess_page(&$vars) {
+  $group = og_context('node');
+  if (!empty($group['gid'])) {
+    $node = node_load($group['gid']);
+    if ($node->type == "course") {
+      $tmp=opigno_in_house_training_app_group_status($group['gid']);
+      $vars['group_state']['course'][$node->nid]['in-house-training'] = opigno_in_house_training_app_group_status($group['gid']);
+    }
+    if ($node->type == "class") {
+      if (isset($node->opigno_class_courses[LANGUAGE_NONE])) {
+        foreach ($node->opigno_class_courses[LANGUAGE_NONE] as $cindex => $course) {
+          $vars['group_state']['course'][$course['target_id']]['in-house-training'] = opigno_in_house_training_app_group_status($course['target_id']);
+        }
+      }
+    }
+  }
+}
+
+function opigno_in_house_training_app_group_status($node_id) {
+  $allih = opigno_in_house_training_app_get_all_iht($node_id);
+  Global $user;
+  return theme_opigno_in_house_app_course_lessons($allih,$user);
+}
+
+function opigno_in_house_training_app_get_all_iht($node_id) {
+  $nodes = array();
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid', 'title', 'vid'))
+    ->condition('n.status', 1, '=')
+    ->condition('n.type', 'in_house_training', '=');
+  $query->join('og_membership', 'og_m', 'og_m.etid = n.nid'); //JOIN node with users
+  $query->fields('og_m', array('gid'))
+    ->condition('og_m.gid', $node_id, '=')
+    ->condition('og_m.field_name', 'og_group_ref', '=')
+    ->condition('og_m.state', 1, '=')
+    ->condition('og_m.entity_type', 'node', '=');
+  $query->join('field_data_opigno_calendar_date', 'fdcd', 'fdcd.entity_id = n.nid'); //JOIN node with users
+  $query->fields('fdcd')
+    ->condition('fdcd.deleted', 0, '=')
+    ->condition('fdcd.bundle', 'in_house_training', '=');
+  $query->orderBy('fdcd.opigno_calendar_date_value', 'ASC');
+  $query->orderBy('n.nid', 'ASC');
+  $result = $query->execute();
+  $total = 0;
+  while ($record = $result->fetchAssoc()) {
+    if ($router_item = menu_get_item('node/' . $record['nid'])) {
+      if ($router_item['access']) {
+        $nodes[$node_id][$record['nid']] = $record['nid'];
+      }
+    }
+  }
+  return $nodes;
+}
+
+/**
+ * Theme callback: display course quizes and results.
+ */
+function theme_opigno_in_house_app_course_lessons($vars,$user) {
+  $rows = array();
+  if (!empty($vars)) {
+    foreach ($vars as $course_id => $ihlessons) {
+      foreach ($ihlessons as $ihlesson_id => $ihlesson) {
+        $ihlesson=node_load($ihlesson);
+        $time = strtotime($ihlesson->opigno_calendar_date['und'][0]['value']);
+        $time2 = strtotime($ihlesson->opigno_calendar_date['und'][0]['value2']);
+        $diff = abs($time2 - $time);
+        $defaults=opigno_in_house_training_score_form_get_default_value($ihlesson_id,$user->uid);
+        $defaults['status']=='0' ? $status=t('Absent') : ($defaults['status']=='1' ? $status=t('Attended') : $status='-');
+        $selected="";
+        if (strpos(current_path(),'node/'.$ihlesson->nid) !== false) {
+          $selected="selected";
+        }
+        $rows[] = array(
+          'class' => array(),
+          'data' => array(
+            l($ihlesson->title, 'node/' . $ihlesson->nid,array('attributes' => array('class' => array($selected)))),
+            gmdate('H\h i\m', $diff),
+            $status,
+          )
+        );
+      }
+    }
+  }
+  $header = array(
+    array(
+      'data' => t('In house Lessons'),
+      'class' => array('opigno-ih-app-course-name')
+    ),
+    array(
+      'data' => t('Duration'),
+      'class' => array('opigno-ih-app-course-duration')
+    ),
+    array(
+      'data' => t('Status'),
+      'class' => array('opigno-ih-app-course-status')
+    ),
+  );
+  if (!empty($rows))
+  {
+  return theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('class' => array())));
+  }
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function opigno_in_house_training_app_views_query_alter(&$view, &$query) {
+  global $user;
+  if (($view->name == 'opigno_quizzes') && ($view->current_display == 'entityreference_1')) {
+    foreach ($query->where as &$conditions) {
+      if (is_array($conditions)) {
+        foreach ($conditions['conditions'] as &$condition) {
+          if (is_string($condition['field'])&&($condition['field']=='node.type')) {
+            $condition['value'][count($condition['value'])] = 'in_house_training';
+          }
+        }
+      }
+    }
+  }
+}
+
+
+function opigno_in_house_get_all_required_iht($node) {
+  $quizzes = &drupal_static(__FUNCTION__);
+
+  if (!isset($quizzes[$node->nid])) {
+    $quizzes[$node->nid] = array();
+    if (isset($node->course_required_quiz_ref[LANGUAGE_NONE])) {
+      foreach ($node->course_required_quiz_ref[LANGUAGE_NONE] as $item) {
+        $nody=node_load($item['target_id']);
+        if ($nody->type=="in_house_training")
+        {
+          $nody=node_load($item['target_id']);
+          $quizzes[$node->nid][$item['target_id']] = node_load($item['target_id']);
+        }
+      }
+    }
+  }
+
+  return $quizzes[$node->nid];
+}
+
+
+
+/////////////////////////////////////////////////////////////////
+
+function opigno_in_house_training_app_get_all_iht_unrestricted($node_id) {
+  $nodes = array();
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid', 'title', 'vid'))
+    ->condition('n.status', 1, '=')
+    ->condition('n.type', 'in_house_training', '=');
+  $query->join('og_membership', 'og_m', 'og_m.etid = n.nid'); //JOIN node with users
+  $query->fields('og_m', array('gid'))
+    ->condition('og_m.gid', $node_id, '=')
+    ->condition('og_m.field_name', 'og_group_ref', '=')
+    ->condition('og_m.state', 1, '=')
+    ->condition('og_m.entity_type', 'node', '=');
+  $query->join('field_data_opigno_calendar_date', 'fdcd', 'fdcd.entity_id = n.nid'); //JOIN node with users
+  $query->fields('fdcd')
+    ->condition('fdcd.deleted', 0, '=')
+    ->condition('fdcd.bundle', 'in_house_training', '=');
+  $query->orderBy('fdcd.opigno_calendar_date_value', 'ASC');
+  $query->orderBy('n.nid', 'ASC');
+  $result = $query->execute();
+  $total = 0;
+  while ($record = $result->fetchAssoc()) {
+    $nodes[$node_id][$record['nid']] = $record['nid'];
+  }
+  return $nodes;
+}
+
+function opigno_in_house_training_app_get_all_iht_unrestricted_view($node_id)
+{
+  $html="";
+  $nodes=opigno_in_house_training_app_get_all_iht_unrestricted($node_id);
+  foreach($nodes[$node_id] as $index => $node)
+  {
+    $node=node_load($node);
+    $html.='<div class="iht-dates">';
+    $html.='<div class="iht-title">';
+    $html.=$node->title;
+    $html.="</div>";
+    $html.="</div>";
+  }
+  return $html;
+}

@@ -1,0 +1,117 @@
+#toolbar {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background: #59666f;
+  color: #e1e4e6;
+}
+#toolbar a {
+  color: rgba(255, 255, 255, 0.95);
+}
+#toolbar a strong {
+  color: rgba(255, 255, 255, 0.95);
+}
+#toolbar div.toolbar-menu {
+  background-color: #434c52;
+  border-bottom: 1px solid #373f44;
+}
+#toolbar div.toolbar-menu ul li a:hover,
+#toolbar div.toolbar-menu ul li:hover a {
+  background: #65737d;
+}
+#toolbar div.toolbar-menu ul li a.active,
+#toolbar div.toolbar-menu ul li.active-trail a {
+  background: #65737d;
+}
+#toolbar div.toolbar-menu ul li a.active:hover, #toolbar div.toolbar-menu ul li a.active:active,
+#toolbar div.toolbar-menu ul li.active-trail a:hover,
+#toolbar div.toolbar-menu ul li.active-trail a:active {
+  background: #65737d;
+}
+#toolbar div.toolbar-drawer {
+  border-bottom: 1px solid #4e5961;
+  border-top: 1px solid #65737d;
+}
+
+#toolbar div.toolbar-menu a.toggle {
+  background: url(../../images/toolbar.png);
+  background-position: 0;
+}
+#toolbar div.toolbar-menu a.toggle:hover {
+  background-position: -50px 0;
+}
+
+#toolbar div.toolbar-menu a.toggle-active.toggle {
+  background-position: -25px 0px;
+}
+#toolbar div.toolbar-menu a.toggle-active.toggle:hover {
+  background-position: -75px 0px;
+}
+
+div#toolbar div.toolbar-shortcuts ul li a:hover {
+  background: #4e5961;
+}
+div#toolbar div.toolbar-shortcuts ul li a.active, div#toolbar div.toolbar-shortcuts ul li a.active:hover {
+  background: #475158;
+}
+
+body.toolbar #tasks {
+  top: 31px;
+}
+
+body.toolbar-drawer #tasks {
+  top: 5.3em;
+}
+
+#toolbar div.toolbar-menu-wrapper > ul.menu > li.open > div.toolbar-menu-wrapper,
+#toolbar div.toolbar-menu-wrapper > ul.menu > li:hover > div.toolbar-menu-wrapper {
+  -webkit-box-shadow: 0 0px 2px rgba(21, 24, 26, 0.4);
+  -moz-box-shadow: 0 0px 2px rgba(21, 24, 26, 0.4);
+  box-shadow: 0 0px 2px rgba(21, 24, 26, 0.4);
+  top: 20px;
+  background: rgba(250, 252, 252, 0.95);
+}
+
+#toolbar div.toolbar-menu-wrapper div.toolbar-menu-wrapper {
+  border: 1px solid #fafcfc;
+}
+#toolbar div.toolbar-menu-wrapper div.toolbar-menu-wrapper ul li {
+  margin-bottom: 0.3em;
+}
+#toolbar div.toolbar-menu-wrapper div.toolbar-menu-wrapper ul li li {
+  margin-bottom: 0.1em;
+}
+#toolbar div.toolbar-menu-wrapper div.toolbar-menu-wrapper a {
+  padding-right: 3px;
+}
+#toolbar div.toolbar-menu-wrapper div.toolbar-menu-wrapper a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+#toolbar div.toolbar-menu div.toolbar-menu-wrapper div.toolbar-menu-wrapper ul.menu li a {
+  color: #3e474d;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#toolbar div.toolbar-menu-wrapper div.toolbar-menu-wrapper div.toolbar-menu-wrapper ul.menu li a {
+  color: #006699;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+#toolbar div.toolbar-menu-wrapper div.toolbar-menu-wrapper div.toolbar-menu-wrapper {
+  border: none;
+  padding-left: 0 !important;
+}
+
+#toolbar div.toolbar-menu-wrapper div.toolbar-menu-wrapper {
+  -moz-border-radius-bottomleft: 2px;
+  -webkit-border-bottom-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  -moz-border-radius-bottomright: 2px;
+  -webkit-border-bottom-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  padding: 10px;
+}

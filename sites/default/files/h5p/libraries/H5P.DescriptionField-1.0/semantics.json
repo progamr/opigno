@@ -1,0 +1,22 @@
+[
+  {
+    "name": "taskDescription",
+    "label": "Task description",
+    "type": "text",
+    "widget": "html",
+    "description": "A descriptive message to guide the user.",
+    "enterMode": "p",
+    "tags": [
+      "strong",
+      "em",
+      "u",
+      "a",
+      "ul",
+      "ol",
+      "h2",
+      "h3",
+      "hr"
+    ],
+    "optional": true
+  }
+]

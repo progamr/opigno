@@ -1,0 +1,142 @@
+// ---------------------------------------------------------------------------
+// Imports
+
+@import "compass";
+@import "susy";
+@import "sassy-buttons";
+
+// ---------------------------------------------------------------------------
+// Basic Grid
+
+$total-columns  : 12;
+$column-width   : 4em;
+$gutter-width   : 1em;
+$grid-padding   : $gutter-width;
+$container-style: fluid;
+
+$show-grid-backgrounds  : true;
+
+// ---------------------------------------------------------------------------
+// Colors
+
+$primaryColor: #0088CC;
+$secondaryColor: #2FA324;
+
+// derived colors
+$primaryBlack: #15181A;
+$primaryBlackBold: lighten($primaryBlack, 18%);
+$primaryWhite: #F4F7F8;
+$primaryLightGray: #ECEFF0;
+$secondaryLightGray: #E7ECE6;
+
+// base colors
+$white: #fff;
+$black: #000;
+$green: #5da423;
+$red: #c60f13;
+$blue: #3a87ad;
+$yellow: #ed5;
+
+// text colors
+$textColor: #333333;
+$textBold: $primaryBlackBold;
+$textMuted: darken($primaryLightGray, 40%);
+$textDisabled: lighten($primaryBlack, 30%);
+
+// borders
+$primaryBorder: darken($primaryLightGray, 10%);
+$secondaryBorder: darken($secondaryLightGray, 10%);
+
+// backgrounds
+$bgSubtle: lighten($primaryWhite, 2%);
+$bgDisabled: #F0F0F0;
+
+// misc
+$topbarColor: #1F411D;
+
+// ---------------------------------------------------------------------------
+// Type
+
+$sansFontFamily: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$serifFontFamily: Georgia, "Times New Roman", Times, serif;
+$monoFontFamily: Monaco, Menlo, Consolas, "Courier New", monospace;
+
+$baseFontSize: 13px;
+$baseLineHeight: 1.5;
+
+// currently a placeholder to allow more complex stuff later
+@mixin font-size($size: $baseFontSize) {
+  font-size: $size;
+}
+
+// ---------------------------------------------------------------------------
+// Vars
+
+$default-border-radius: 2px;
+
+// ---------------------------------------------------------------------------
+// Sassy buttons
+
+$sb-base-color: $primaryWhite;
+$sb-second-color: false;
+$sb-border-radius: 3px;
+$sb-padding: 0.5em 1.5em;
+$sb-font-size: $baseFontSize;
+$sb-text-color: darken($primaryLightGray, 60%);
+$sb-text-style: "inset";
+$sb-gradient-style: "simple";
+$sb-pseudo-states: true;
+$sb-ie-support: true;
+
+@mixin sassy-button-default-structure {
+  display: inline-block;
+  cursor: pointer;
+}
+
+%button-default {
+  @include sassy-button;
+  margin-right: 5px;
+}
+
+%button-link {
+  $sb-padding: 0.34em 1.5em;
+  @include sassy-button;
+  margin-right: 5px;
+  text-decoration: none;
+
+  &:hover {
+    color: $sb-text-color;
+  }
+}
+
+%button-green {
+  @include sassy-button-gradient("simple", lighten($secondaryColor, 5%), false, $white);
+}
+
+%button-green-medium {
+  @include sassy-button-gradient("simple", $green, false, $white);
+}
+
+%button-blue {
+  @include sassy-button-gradient("simple", $primaryColor, false, $white);
+}
+
+%button-blue-medium {
+  @include sassy-button-gradient("simple", $blue, false, $white);
+}
+
+%button-red {
+  @include sassy-button-gradient("simple", lighten($red, 5%), false, $white);
+}
+
+%button-yellow {
+  @include sassy-button-gradient("simple", $yellow, false, darken($yellow, 45%));
+}
+
+%button-dark {
+  @include sassy-button-gradient("simple", lighten($primaryBlack, 25%), false, $primaryWhite);
+}
+
+%button-medium {
+  @include sassy-button-gradient("simple", darken($primaryLightGray, 25%), false, $white);
+}

@@ -1,0 +1,18 @@
+name = DrupalChat
+package = DrupalChat
+description = Allows users to communicate via instant chat messaging. Provides multiple AJAX implementations.
+core = 7.x
+php = 5.1
+
+
+files[] = drupalchat-subpanel.tpl.php
+files[] = drupalchat.admin.inc
+files[] = drupalchat.install
+files[] = drupalchat.module
+files[] = drupalchat.tpl.php
+; Information added by  packaging script on 2013-11-29
+version = "7.x-1.0-beta28"
+core = "7.x"
+project = "drupalchat"
+datestamp = "1385699007"
+

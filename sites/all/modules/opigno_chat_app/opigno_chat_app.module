@@ -1,0 +1,52 @@
+<?php
+
+function opigno_chat_app_drupalchat_users() {
+  Global $user, $base_url;
+  $users['rooms'] = array();
+  $users['users'] = array();
+  $query = db_select('og_membership', 'ogm');
+  $query->fields('ogm', array());
+  $query->condition('ogm.etid', $user->uid, '=');
+  $query->join('node', 'n', 'ogm.gid = n.nid');
+  $query->fields('n', array('title'));
+  $query->join('og_membership', 'ogm2', 'ogm2.gid = ogm.gid');
+  $query->fields('ogm2', array());
+  $query->condition('ogm2.entity_type', 'user', '=');
+  $query->condition('ogm2.state', '1', '=');
+  $query->groupBy('ogm.gid');
+  $query->join('drupalchat_users', 'dcu', 'ogm2.etid = dcu.uid');
+  $query->condition('dcu.timestamp', (time() - variable_get('drupalchat_user_latency', 2)), '>=');
+  $query->fields('dcu');
+  $query->condition('dcu.uid', $user->uid, '<>');
+  $query->addExpression('GROUP_CONCAT(dcu.uid)', 'alluids');
+  $query->addExpression('GROUP_CONCAT(dcu.name)', 'allnames');
+  $query->addExpression('GROUP_CONCAT(dcu.status)', 'allstatus');
+  $result = $query->execute();
+  while ($record = $result->fetchAssoc()) {
+    $chatindex = 'c-' . $record['gid'];
+    $users['rooms'][$chatindex]['name'] = $record['title'];
+    $users['rooms'][$chatindex]['status'] = 1;
+    if (variable_get('drupalchat_user_picture', 1) == 1) {
+      $users['rooms'][$chatindex]['p'] = $base_url . '/' . drupal_get_path('module', 'drupalchat') . '/themes/' . variable_get('drupalchat_theme', 'light') . '/images/default_room.png';
+    }
+    $uids = explode(",", $record['alluids']);
+    $names = explode(",", $record['allnames']);
+    $status = explode(",", $record['allstatus']);
+    $i = 0;
+    foreach ($uids as $uid) {
+      $users['users'][$uid]['name'] = check_plain($names[$i]);
+      $users['users'][$uid]['status'] = $status[$i];
+      if (variable_get('drupalchat_user_picture', 1) == 1) {
+        $users['users'][$uid]['p'] = drupalchat_return_pic_url_any_user(user_load($uid));
+      }
+      $i++;
+    }
+  }
+  return $users;
+}
+
+function opigno_chat_app_init() {
+  if (drupalchat_verify_access()) {
+    drupal_add_js(array('drupalchat' => array('noUsers' => '<li' . drupal_attributes(array('class' => array('drupalchatnousers'))) . '>' . t('No users online') . "</li>\n",)), array('type' => 'setting'));
+  }
+}

@@ -1,0 +1,130 @@
+table {
+  border: none;
+  margin: 1em 0 2em;
+  width: 100%;
+
+  thead {
+    th {
+      background: $primaryWhite;
+      border-bottom: 1px solid darken($primaryWhite, 20%);
+      color: $primaryBlackBold;
+      text-shadow: 0 1px 0 $white;
+      padding-right: 1em;
+      text-align: left;
+
+      &:first-child {
+        @include border-top-left-radius;
+      }
+
+      &:last-child {
+        @include border-top-right-radius;
+      }
+
+      &.active {
+        background: darken($primaryWhite, 5%);
+
+        img {
+          display: inline;
+          padding-left: 5px;
+        }
+      }
+    }
+  }
+
+  tbody {
+    border-top: 1px solid darken($primaryLightGray, 10%);
+  }
+
+  tr {
+    &.even,
+    &.odd {
+      border: none;
+      padding: 0;
+    }
+
+    td {
+      border-top: 1px solid #fff;
+      &.active {
+        background: $primaryWhite;
+      }
+    }
+
+    &.odd td,
+    &.even td,
+    &.info td {
+      border-bottom: 1px solid darken($primaryLightGray, 8%);
+      background: $white;
+    }
+
+    &.even td {
+      background: lighten($primaryLightGray, 5%);
+    }
+
+    &.ok td {
+      background: lighten($green, 56%);
+      border-bottom: 1px solid lighten($green, 40%);
+    }
+    &.warning td {
+      background: lighten($yellow, 30%);
+      border-bottom: 1px solid $yellow;
+    }
+    &.error td {
+      background: lighten($red, 56%);
+      border-bottom: 1px solid lighten($red, 40%);
+    }
+
+    &.drag td {
+      background: saturate(lighten($yellow, 33%), 10%);
+      border-bottom: 1px solid lighten($yellow, 20%);
+    }
+
+    &.selected td,
+    &.drag-previous td {
+      background: saturate(lighten($yellow, 30%), 20%);
+      border-bottom: 1px solid lighten($yellow, 10%);
+    }
+  }
+
+  th, td {
+    padding: 0.7em;
+
+    &.checkbox {
+      text-align: center;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Table Drag
+
+.tabledrag-toggle-weight {
+  font-size: 0.9em;
+}
+
+body div.tabledrag-changed-warning {
+  margin-bottom: 0.5em;
+}
+
+.draggable {
+  td.delta-order {
+    vertical-align: top;
+  }
+
+  a.tabledrag-handle {
+    height: auto;
+  }
+}
+
+a.tabledrag-handle .handle {
+  display: inline-block;
+  height: 1em;
+}
+
+// ---------------------------------------------------------------------------
+// Blocks table needs special treatment
+
+table#blocks {
+  tr.odd td {
+    background: lighten($primaryLightGray, 5%);
+  }
+}

@@ -1,0 +1,15 @@
+<?php
+/**
+ * Implements hook_install().
+ */
+function opigno_chat_app_install() {
+  if (function_exists('opigno_lms_refresh_strings_and_import')) {
+    opigno_lms_refresh_strings_and_import(array('field'));
+  }
+
+  // Give authenticated users access to the chat.
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array(
+    'access drupalchat',
+  ));
+}
+

@@ -1,0 +1,205 @@
+// ---------------------------------------------------------------------------
+// Shortcuts
+h1.page-title {
+  float: left;
+}
+
+div.add-or-remove-shortcuts {
+  @include text-shadow(none);
+  float: left;
+  padding-top: 1em;
+  padding-left: 1em;
+
+  & a:hover,
+  & a:focus {
+    span.text {
+      background-color: lighten($primaryBlack, 25%);
+    }
+  }
+}
+
+
+// ---------------------------------------------------------------------------
+// Messages
+
+div.messages {
+  @include border-radius;
+  padding: 10px;
+  margin: 20px 0;
+  background: lighten($green, 56%);
+  border: 1px solid lighten($green, 45%);
+
+  &.error {
+    background: lighten($red, 56%);
+    border-color: lighten($red, 40%);
+  }
+
+  &.warning {
+    background: lighten($yellow, 30%);
+    border-color: lighten($yellow, 15%);
+  }
+
+  ul {
+    margin: 0 0 0 1em;
+    padding: 0;
+
+    li {
+      list-style-image: none;
+    }
+  }
+}
+
+.error {
+  color: $red;
+}
+
+div.status,
+.ok {
+  color: darken($green, 10%);
+}
+
+.warning {
+  color: darken($yellow, 40%);
+}
+
+// ---------------------------------------------------------------------------
+// Admin panels
+
+div.admin {
+  .left {
+    @include span-columns(6);
+    margin-left: 0;
+  }
+  .right {
+    @include span-columns(6 omega);
+  }
+
+  .body {
+    padding: 0;
+  }
+}
+
+div.admin-panel {
+  background: $bgSubtle;
+  border-bottom: 1px solid darken($primaryWhite, 5%);
+  margin-bottom: 1em;
+  padding: 1em;
+
+  h3 {
+    margin-top: 0;
+  }
+}
+
+dl.admin-list {
+  margin-left: 0;
+
+  &.compact dt {
+    margin: 0 0 0.5em 0;
+  }
+
+  dd {
+    @include font-size(12px);
+    color: $textMuted;
+    margin: 0 0 0.75em 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Dblog
+
+#dblog-filter-form .form-item-type,
+#dblog-filter-form .form-item-severity {
+  float: left; /* LTR */
+  padding-right: .8em; /* LTR */
+  margin: 0.1em;
+  /**
+   * In Opera 9, DOM elements with the property of "overflow: auto"
+   * will partially hide its contents with unnecessary scrollbars when
+   * its immediate child is floated without an explicit width set.
+   */
+  width: 15em;
+}
+
+#dblog-filter-form .form-type-select select {
+  width: 100%;
+}
+#dblog-filter-form .form-actions {
+  float: left;
+  padding: 4ex 0 0 1em;
+}
+
+table {
+  tr {
+    &.dblog-warning td,
+    &.dblog-user td {
+      background-color: lighten($yellow, 30%);
+      border-bottom: 1px solid $yellow;
+
+      &.active {
+        background-color: lighten($yellow, 20%);
+      }
+    }
+
+    &.dblog-content td {
+      background-color: lighten($blue, 45%);
+      border-bottom: 1px solid lighten($blue, 25%);
+
+      &.active {
+        background-color: lighten($blue, 40%);
+      }
+    }
+
+    &.dblog-page-not-found td,
+    &.dblog-access-denied td {
+      background-color: lighten($green, 56%);
+      border-bottom: 1px solid lighten($green, 40%);
+
+      &.active {
+        background-color: lighten($green, 50%);
+      }
+    }
+
+    &.db-log-error td {
+      background-color: lighten($red, 56%);
+      border-bottom: 1px solid lighten($red, 40%);
+
+      &.active {
+        background-color: lighten($red, 50%);
+      }
+    }
+  }
+}
+
+table#admin-dblog {
+  td.icon {
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 16px;
+  }
+
+  tr.dblog-warning td.icon {
+    background-image: url(../images/message-16-warning.png);
+  }
+
+  tr.dblog-error td.icon,
+  tr.dblog-critical td.icon,
+  tr.dblog-alert td.icon,
+  tr.dblog-emerg td.icon {
+    background-image: url(../images/message-16-error.png);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Field UI
+
+.field-formatter-settings-edit-form .form-actions input:first-child {
+  @extend %button-blue-medium;
+}
+
+form .field-multiple-table th.field-label {
+  padding-left: 0.7em;
+
+  label {
+    margin: 0;
+  }
+}

@@ -1,0 +1,48 @@
+.media-item {
+  @include border-radius;
+  border-color: $primaryLightGray;
+
+
+  &.selected,
+  &:hover {
+    cursor: pointer;
+    background: $primaryLightGray;
+    border-color: darken($primaryLightGray, 30%);
+
+    .media-filename {
+      background: $primaryLightGray;
+    }
+  }
+
+  &.selected {
+    border-color: $primaryColor;
+  }
+
+  img:hover {
+    border-color: transparent;
+  }
+}
+
+#media-browser-tabset .ui-tabs-nav,
+#media-browser-tabset .media-browser-tab {
+  border: none;
+}
+
+#media-browser-tabset .ui-tabs-nav {
+  border-bottom: 1px solid $primaryBorder;
+}
+
+.ui-widget.ui-widget-content.media-wrapper {
+  background: #fff;
+  border: solid 1px lighten($primaryBlack, 30%);
+}
+
+#media-browser-page,
+#media-browser-tabset {
+  background: transparent;
+  padding: 0;
+}
+
+.media-item .media-filename {
+  color: $primaryColor;
+}

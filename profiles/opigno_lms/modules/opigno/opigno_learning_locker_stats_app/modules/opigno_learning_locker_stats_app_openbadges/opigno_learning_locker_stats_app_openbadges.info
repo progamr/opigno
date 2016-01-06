@@ -1,0 +1,12 @@
+name = Opigno Learning Locker statistics open badges
+description = Add mozilla openbadges statements
+package = Opigno Apps
+dependencies[] = opigno_learning_locker_stats_app
+dependencies[] = opigno_mozilla_openbadges_app
+core = 7.x
+; Information added by Drupal.org packaging script on 2015-10-08
+version = "7.x-1.0"
+core = "7.x"
+project = "opigno_learning_locker_stats_app"
+datestamp = "1444304343"
+

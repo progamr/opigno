@@ -1,0 +1,9 @@
+name = Opigno chat app
+description = Allows users to chat
+core = 7.x
+package = Opigno Apps
+
+dependencies[] = opigno
+dependencies[] = drupalchat
+
+

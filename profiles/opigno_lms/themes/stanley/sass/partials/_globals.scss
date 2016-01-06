@@ -1,0 +1,134 @@
+// ---------------------------------------------------------------------------
+// links
+a {
+  color: $primaryColor;
+
+  &:hover {
+    color: darken($primaryColor, 10%);
+  }
+
+  img {
+    border: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// lists
+
+// Inline lists
+ul.inline,
+ul.links.inline {
+  display: inline;
+  padding-left: 0;
+}
+
+ul.inline li {
+  display: inline;
+  list-style-type: none;
+  padding-right: 1em;
+}
+
+// Items lists theme_item_list().
+.item-list {
+  .title {
+    font-weight: bold;
+  }
+
+  ul {
+    margin: 0 0 10px 0;
+    padding: 0;
+
+    table & {
+      margin-bottom: 0;
+    }
+
+    li {
+      margin: 0 0 0.25em 1.5em;
+      padding: 0;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// progress bar
+.progress {
+  font-weight: bold;
+
+  .bar {
+    @include border-radius(1em);
+    background: lighten($secondaryColor, 20%);
+    border-color: $secondaryColor;
+    margin: 0 0.2em;
+  }
+
+  .filled {
+    background: $secondaryColor url(../images/progress.gif);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// misc
+hr {
+  border: 1px solid $primaryBorder;
+  height: 1px;
+}
+
+.description,
+.fieldset-description,
+.compact-link {
+  color: $textMuted;
+  @include font-size(12px);
+}
+
+.more-link {
+  text-align: right;
+}
+
+.more-help-link {
+  text-align: right;
+}
+
+.more-help-link a {
+  background: url(../images/help.png) 0 50% no-repeat;
+  padding: 1px 0 1px 20px;
+}
+
+.container-inline {
+  label, div {
+    display: inline;
+  }
+
+  // Fieldset contents always need to be rendered as block.
+  .fieldset-wrapper {
+    display: block;
+  }
+}
+
+// From system.base.css
+.nowrap {
+  white-space: nowrap;
+}
+
+html.js .js-hide {
+  display: none;
+}
+
+.element-hidden {
+  display: none;
+}
+
+.element-invisible {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  overflow: hidden;
+  height: 1px;
+}
+
+.element-invisible.element-focusable:active,
+.element-invisible.element-focusable:focus {
+  position: static !important;
+  clip: auto;
+  overflow: visible;
+  height: auto;
+}

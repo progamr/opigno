@@ -1,0 +1,27 @@
+name = Stanley
+description = Admin theme based on the Twitter Bootstrap toolkit
+core = 7.x
+engine = phptemplate
+
+regions[help] = Help
+regions[page_top] = Page top
+regions[sidebar_first] = Sidebar first
+regions[content] = Content
+regions[sidebar_second] = Sidebar second
+regions[page_bottom] = Page bottom
+regions[footer] = Footer
+
+scripts[] = scripts.js
+
+stylesheets[screen][] = styles/screen.css
+stylesheets[screen][] = styles/core.css
+stylesheets[screen][] = styles/contrib.css
+
+settings[shortcut_module_link] = 1
+
+; Information added by drupal.org packaging script on 2013-03-08
+version = "7.x-2.0-alpha3"
+core = "7.x"
+project = "stanley"
+datestamp = "1362752435"
+

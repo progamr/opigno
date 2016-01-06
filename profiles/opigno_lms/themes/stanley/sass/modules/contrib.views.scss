@@ -1,0 +1,134 @@
+@import "partials/base";
+
+.views-admin {
+  fieldset fieldset.container-inline {
+    padding-top: 0.35em;
+  }
+}
+
+.views-displays {
+  @include border-top-radius;
+  border-color: $primaryBorder;
+}
+
+.views-display-top {
+  background: $primaryWhite;
+  border-color: $primaryBorder;
+}
+
+.views-ui-display-tab-bucket .even {
+  background: $primaryWhite;
+}
+
+#views-preview-wrapper {
+  border-color: $primaryBorder;
+}
+
+.views-ui-dialog .views-override {
+  background: $primaryWhite;
+}
+
+.views-ui-dialog #views-ajax-title,
+.views-ui-dialog .form-buttons {
+  background: none;
+}
+
+.views-ui-dialog .scroll,
+.views-filterable-options {
+  border-color: $primaryBorder;
+  background: $white;
+}
+
+.views-filterable-options .even .form-type-checkbox {
+  background: $primaryWhite;
+}
+
+.views-filterable-options .form-type-checkbox {
+  border-color: $primaryBorder;
+  margin: 0;
+}
+
+#views-ajax-popup {
+  @include border-radius(7px);
+  background: $primaryWhite;
+}
+
+.views-ui-dialog  .ui-dialog-titlebar {
+  border: none;
+
+  .ui-dialog-titlebar-close {
+    @include box-shadow(none);
+    background: none;
+    border: none;
+    top: 7px;
+    right: 7px;
+    width: auto;
+    height: auto;
+  }
+}
+
+.form-submit:not(.js-hide) + .form-submit {
+  margin-left: 0;
+}
+
+.views-ui-dialog .form-buttons input {
+  margin-right: 5px;
+}
+
+.views-displays .secondary {
+  a {
+    @include border-radius;
+    border: none;
+    text-decoration: none;
+
+    &:hover {
+      background: $primaryColor;
+    }
+  }
+
+  & .active a {
+    background: $textMuted;
+  }
+
+  .open > a {
+    @include border-bottom-radius(none);
+    background: $primaryLightGray;
+    border-top: 1px solid $primaryBorder;
+    border-right: 1px solid $primaryBorder;
+    border-left: 1px solid $primaryBorder;
+
+    &:hover {
+      color: $primaryColor;
+    }
+  }
+
+  .action-list {
+    z-index: 55;
+  }
+  .action-list li {
+    border-color: $primaryBorder;
+    background: $primaryLightGray;
+
+    &:first-child {
+      @include border-top-radius;
+    }
+
+    &:last-child {
+      @include border-bottom-radius;
+    }
+
+    &:hover {
+      background: $primaryBorder;
+    }
+
+    input {
+      @include box-shadow(none);
+      text-align: left;
+      width: 100%;
+    }
+  }
+}
+
+ul#views-display-menu-tabs li {
+  margin-bottom: 0;
+}

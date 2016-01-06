@@ -1,0 +1,92 @@
+html.js {
+  background: transparent !important;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+html.js body {
+  background: transparent !important;
+  padding: 30px 60px !important;
+}
+
+#overlay {
+  display: block;
+  position: relative;
+}
+
+#overlay-titlebar {
+  position: relative;
+  z-index: 100;
+}
+
+#overlay-title {
+  margin: 0 0 10px 20px;
+  color: #f4f7f8;
+  float: left;
+}
+
+#overlay-close-wrapper {
+  position: absolute;
+  right: 0px;
+  width: 30px;
+}
+
+#overlay-close {
+  color: #889ba1;
+  display: block;
+  position: absolute;
+  text-decoration: none;
+  height: 20px;
+  width: 20px;
+  margin: 6px;
+  padding: 0px;
+}
+#overlay-close:after {
+  content: '\2716';
+}
+#overlay-close:hover {
+  color: #56676d;
+}
+
+#overlay-content {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: #111111 0px 0px 10px;
+  -moz-box-shadow: #111111 0px 0px 10px;
+  box-shadow: #111111 0px 0px 10px;
+  background: #fff;
+  position: relative;
+  padding: 0;
+  min-height: 400px;
+  overflow: hidden;
+}
+#overlay-content #page {
+  margin: 20px 0 0;
+  padding: 0;
+}
+
+#overlay-content .limiter {
+  margin: 0px 20px;
+}
+
+/**
+ * Tabs on the overlay.
+ */
+#overlay-tabs {
+  display: none;
+}
+
+#tasks {
+  position: relative;
+  top: 0 !important;
+  z-index: 0;
+}
+
+#page-header {
+  padding: 5px;
+}
+#page-header .container {
+  padding: 0;
+}

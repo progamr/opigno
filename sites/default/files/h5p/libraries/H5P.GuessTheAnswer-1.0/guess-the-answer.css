@@ -1,0 +1,33 @@
+.h5p-guess-answer{
+  background-color: #FFF;
+  text-align: center;
+}
+.h5p-guess-answer-title {
+  text-align: center;
+  margin: 0 0 0.4em;
+  border-bottom: 0.1em solid #ddd;
+}
+.h5p-guess-answer-title p {
+  margin: 0.5em auto;
+}
+
+.h5p-guess-answer-image-container {
+  margin-bottom: -0.5em;
+}
+
+.h5p-guess-answer-solution-container {
+  cursor: pointer;
+  margin: auto;
+  background-color: #545454;
+  color: #FFF;
+  padding: 0.5em 0em;
+
+  display: flex;
+  justify-content:center;
+  align-content:center;
+  flex-direction:column;
+}
+
+.h5p-guess-answer-showing-solution {
+  cursor: auto;
+}

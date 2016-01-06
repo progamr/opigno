@@ -1,0 +1,96 @@
+div#admin-toolbar.vertical div.admin-blocks {
+  background: #fafcfc;
+  border-right: 1px solid #d8dee0;
+}
+div#admin-toolbar.vertical div.admin-tab {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  color: #e1e4e6;
+  width: 206px;
+}
+div#admin-toolbar.vertical div.admin-tab a, div#admin-toolbar.vertical div.admin-tab span {
+  color: #e1e4e6;
+}
+div#admin-toolbar.vertical div.admin-tab-active {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  background: #fafcfc;
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+  margin-left: -35px;
+  padding-left: 45px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  bottom: -12px;
+}
+div#admin-toolbar.vertical div.admin-tab-active:after {
+  content: "";
+  height: 1px;
+  background: #dbe5e8;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+div#admin-toolbar.vertical div.admin-tab-active a, div#admin-toolbar.vertical div.admin-tab-active span {
+  color: #2c3236;
+  text-shadow: #fdfdfd 0px 1px 0px;
+  font-weight: bold;
+}
+div#admin-toolbar.vertical div.admin-tabs {
+  background: #dbe5e8;
+}
+div#admin-toolbar.vertical div.admin-tabs a, div#admin-toolbar.vertical div.admin-tabs span {
+  color: #2c3236;
+  text-shadow: none;
+}
+div#admin-toolbar ul.menu li a {
+  border: none;
+  color: #434c52;
+}
+div#admin-toolbar ul.menu li a:hover {
+  background: none;
+  font-weight: bold;
+  color: #15181a;
+  text-decoration: underline;
+}
+div#admin-toolbar ul.menu li a.active {
+  background: none;
+  font-weight: bold;
+  color: #2c3236;
+}
+div#admin-toolbar ul.drilldown-active-menu li.expanded {
+  background: none;
+}
+div#admin-toolbar ul.drilldown-active-menu li.expanded:before {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  color: #70808b;
+  content: '+';
+  float: left;
+  padding: 1px 4px 4px;
+  margin-top: 4px;
+  margin-left: 4px;
+  line-height: 1;
+}
+
+body.toolbar div#admin-toolbar.vertical {
+  top: 2.8em;
+}
+
+body.toolbar-drawer div#admin-toolbar.vertical {
+  top: 6em;
+}
+
+body.admin-nw.admin-expanded #tasks {
+  left: 260px;
+}

@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * @file
+ * Add mozilla openbadges statements
+ * @see https://registry.tincanapi.com/#profile/44
+ */
+
+/**
+ * Implements hook_opigno_openbadge_assertion_created().
+ */
+function opigno_learning_locker_stats_app_openbadges_opigno_openbadge_assertion_created($nid, $badgeClassFileURI, $assertFileURI)
+{
+  global $user, $base_url;
+  $badge_data = json_decode(file_get_contents(drupal_realpath($badgeClassFileURI)));
+  $context_node = node_load($nid);
+
+  $data = array(
+    'verb' => array(
+      'id' => 'http://specification.openbadges.org/xapi/verbs/earned',
+      'display' => array(
+        'en-US' => 'earned'
+      )
+    ),
+    'result' => array(
+      'extensions' => array(
+        'http://specification.openbadges.org/xapi/extensions/badgeassertion' => array(
+          '@id' => file_create_url($assertFileURI)
+        )
+      )
+    ),
+    'object' => array(
+      'id' => file_create_url($badgeClassFileURI),
+      'definition' => array(
+        'extensions' => array(
+          'http://specification.openbadges.org/xapi/extensions/badgeclass' => array(
+            '@id' => file_create_url($badgeClassFileURI),
+            'image' => $badge_data->image,
+            'criteria' => $badge_data->criteria,
+            'issuer' => $badge_data->issuer
+          )
+        ),
+        'name' => array(
+          'en-US' => $badge_data->name
+        ),
+        'description' => array(
+          'en-US' => $badge_data->description
+        ),
+        'type' => 'http://activitystrea.ms/schema/1.0/badge'
+      ),
+      'objectType' => 'Activity'
+    ),
+    'context' => array(
+      'contextActivities' => array(
+        'grouping' => array(
+          array(
+            'id' => $base_url . '/node/' . $context_node->nid,
+            'definition' => array(
+              'name' => array('en-US' => $context_node->title),
+              'type' => TINCANAPI_CUSTOM_URI . '/content/type/' . $context_node->type
+            ),
+            'objectType' => 'Activity'
+          )
+        )
+      )
+    )
+  );
+  tincanapi_track_data('opigno_learning_locker_stats_app_openbadges', $data, $user);
+}

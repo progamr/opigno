@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Add in house training statements
+ */
+
+/**
+ * Implements hook_opigno_in_house_training_finished().
+ */
+function opigno_learning_locker_stats_app_in_house_training_opigno_in_house_training_finished($taker, $iht, $score)
+{
+  $data = array(
+    'verb' => tincanapi_get_verb('finished'),
+    'object' => tincanapi_get_object('node', $iht),
+    'result' => array(
+      'score' => array(
+        'scaled' => _tincanapi_quiz_get_score($score)
+      ),
+      'completion' => true,
+      'success' => true
+    )
+  );
+
+  tincanapi_content_types_add_og_context($data, $iht);
+  tincanapi_track_data('opigno_learning_locker_stats_app_in_house_training', $data, $taker);
+}

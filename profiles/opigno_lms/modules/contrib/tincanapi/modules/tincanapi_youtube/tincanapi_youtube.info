@@ -1,0 +1,18 @@
+name = Tin Can API (YouTube)
+description = Tin Can API reporting for YouTube videos.
+package = Tin Can API
+
+dependencies[] = tincanapi_media
+dependencies[] = media_youtube
+
+scripts[] = js/tincanapi_youtube.js
+
+core = 7.x
+
+
+; Information added by drush on 2015-10-08
+version = "7.x-1.0-alpha2+0-dev"
+core = "7.x"
+project = "tincanapi"
+datestamp = "1444315162"
+

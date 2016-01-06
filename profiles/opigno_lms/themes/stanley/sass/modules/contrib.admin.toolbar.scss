@@ -1,0 +1,103 @@
+@import "partials/base";
+
+div#admin-toolbar {
+  &.vertical {
+    div.admin-blocks {
+      background: $bgSubtle;
+      border-right: 1px solid lighten($primaryBorder, 3%);
+    }
+
+    div.admin-tab {
+      @include single-box-shadow(none);
+      border: none;
+      background: transparent;
+      color: lighten($primaryBlack, 80%);
+      width: 206px;
+
+      a, span {
+        color: lighten($primaryBlack, 80%);
+      }
+    }
+
+    div.admin-tab-active {
+      @include border-radius(0);
+      background: $bgSubtle;
+      border-bottom: 1px solid $white;
+      border-top: 1px solid $white;
+      margin-left: -35px;
+      padding-left: 45px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      bottom: -12px;
+
+      &:after {
+        content: "";
+        height: 1px;
+        background: darken($bgSubtle, 10%);
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      a, span {
+        color: lighten($primaryBlack, 10%);
+        text-shadow: lighten($primaryBlack, 90%) 0px 1px 0px;
+        font-weight: bold;
+      }
+    }
+
+    div.admin-tabs {
+      background: darken($bgSubtle, 10%);
+
+      a, span {
+        color: lighten($primaryBlack, 10%);
+        text-shadow: none;
+      }
+    }
+  }
+
+  ul.menu li a {
+    border: none;
+    color: lighten($primaryBlack, 20%);
+    &:hover {
+      background: none;
+      font-weight: bold;
+      color: $primaryBlack;
+      text-decoration: underline;
+    }
+    &.active {
+      background: none;
+      font-weight: bold;
+      color: lighten($primaryBlack, 10%);
+    }
+  }
+
+  ul.drilldown-active-menu li.expanded {
+    background: none;
+    &:before {
+      @include border-radius;
+      color: lighten($primaryBlack, 40%);
+      content: '+';
+      float: left;
+      padding: 1px 4px 4px;
+      margin-top: 4px;
+      margin-left: 4px;
+      line-height: 1;
+    }
+  }
+}
+
+// support for core toolbar
+body.toolbar div#admin-toolbar.vertical {
+  top: 2.8em;
+}
+
+body.toolbar-drawer div#admin-toolbar.vertical {
+  top: 6em;
+}
+
+// support for stanley task bar
+body.admin-nw.admin-expanded #tasks {
+  left: 260px;
+}

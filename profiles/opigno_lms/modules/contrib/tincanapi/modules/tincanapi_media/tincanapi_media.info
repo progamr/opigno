@@ -1,0 +1,17 @@
+name = Tin Can API (Media)
+description = Tin Can API common functions for media objects.
+package = Tin Can API
+
+dependencies[] = tincanapi
+
+scripts[] = js/video_tracker.js
+
+core = 7.x
+
+
+; Information added by drush on 2015-10-08
+version = "7.x-1.0-alpha2+0-dev"
+core = "7.x"
+project = "tincanapi"
+datestamp = "1444315162"
+

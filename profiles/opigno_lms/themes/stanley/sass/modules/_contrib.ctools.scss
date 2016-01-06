@@ -1,0 +1,44 @@
+div.ctools-modal-content {
+  @include border-radius(6px);
+  @include box-shadow(0 3px 7px rgba(0, 0, 0, 0.3));
+  @include background-clip(padding-box);
+  background: #fff;
+  border: solid 1px $primaryBorder;
+
+  .modal-header {
+    @include border-top-radius(6px);
+    background: $primaryLightGray;
+    border-bottom: 1px solid $primaryBorder;
+    color: $textBold;
+    padding: 0.5em 1em;
+  }
+
+  .modal-title {
+    color: $textBold;
+  }
+
+  a.close {
+    color: darken($primaryColor, 10%);
+    padding-top: 0.3em;
+    font-size: 90%;
+
+    img { display: none; }
+  }
+}
+
+.ctools-button-processed {
+  @include border-radius;
+  border-color: $primaryBorder;
+
+  &:hover {
+    background: $bgSubtle;
+    border-color: darken($primaryBorder, 10%);
+  }
+
+}
+
+.ctools-dropbutton-processed {
+  &.open {
+    @include box-shadow(none);
+  }
+}

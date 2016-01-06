@@ -1,0 +1,14 @@
+name = Opigno Learning Locker statistics
+description = Add statistics pages based on Learning Locker LRS statements for opigno
+package = Opigno Apps
+dependencies[] = tincanapi
+dependencies[] = tincanapi_content_types
+dependencies[] = tincanapi_quiz
+dependencies[] = h5p_tincan_bridge
+core = 7.x
+; Information added by Drupal.org packaging script on 2015-10-08
+version = "7.x-1.0"
+core = "7.x"
+project = "opigno_learning_locker_stats_app"
+datestamp = "1444304343"
+

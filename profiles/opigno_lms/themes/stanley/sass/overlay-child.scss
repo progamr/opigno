@@ -1,0 +1,102 @@
+@import "partials/base";
+
+html.js {
+  background: transparent !important;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  body {
+    background: transparent !important;
+    padding: 30px 60px !important;
+  }
+}
+
+#overlay {
+  display: block;
+  position: relative;
+}
+
+#overlay-titlebar {
+  position: relative;
+  z-index: 100;
+}
+
+#overlay-title-wrapper {
+
+}
+
+#overlay-title {
+  margin: 0 0 10px 20px;
+  color: $primaryWhite;
+  float: left;
+}
+
+#overlay-close-wrapper {
+  position: absolute;
+  right: 0px;
+  width: 30px;
+}
+
+#overlay-close {
+  color: darken($primaryLightGray, 35%);
+  display: block;
+  position: absolute;
+  text-decoration: none;
+  height: 20px;
+  width: 20px;
+  margin: 6px;
+  padding: 0px;
+  &:after {
+    content: '\2716';
+  }
+  &:hover {
+    color: darken($primaryLightGray, 55%)
+  }
+}
+
+// #overlay-close,
+// #overlay-close:hover {
+//   @include border-radius();
+
+//   background:$textMuted url(images/buttons.png) -4000px 50% no-repeat;
+// }
+
+// #overlay-close:active { background: #333 url(images/buttons.png) -4400px 50% no-repeat; }
+
+#overlay-content {
+  @include border-radius(5px);
+  @include box-shadow(#111 0px 0px 10px);
+  background: #fff;
+  position: relative;
+  padding: 0;
+  min-height: 400px;
+  overflow: hidden;
+
+  #page {
+    margin: 20px 0 0;
+    padding: 0;
+  }
+}
+
+#overlay-content .limiter {
+  margin: 0px 20px;
+}
+
+/**
+ * Tabs on the overlay.
+ */
+#overlay-tabs { display: none; }
+
+#tasks {
+  position: relative;
+  top: 0 !important;
+  z-index: 0;
+}
+
+#page-header {
+  padding: 5px;
+
+  .container {
+    padding: 0;
+  }
+}

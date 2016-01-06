@@ -1,0 +1,33 @@
+// ---------------------------------------------------------------------------
+// Layout
+
+body {
+  background-color: $white;
+}
+
+.container {
+  @include container;
+  margin: 0 20px;
+  // @include susy-grid-background;
+}
+
+#page-header {
+  @include single-box-shadow($white, $inset: true, $blur: 1px);
+  background: $primaryLightGray;
+  border-bottom: 1px solid darken($primaryLightGray, 5%);
+  color: $primaryBlackBold;
+  text-shadow: 0px 1px $primaryWhite;
+  padding: 30px 0 20px;
+}
+
+#page {
+  margin: 20px;
+}
+
+.span-two-third {
+  @include span-columns(8);
+}
+
+.span-one-third {
+  @include span-columns(4 omega);
+}

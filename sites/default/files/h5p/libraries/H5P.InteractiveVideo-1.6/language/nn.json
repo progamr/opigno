@@ -1,0 +1,134 @@
+{
+  "semantics": [
+    {
+      "label": "Interaktiv Video Editor",
+      "fields": [
+        {
+          "label": "Last opp video",
+          "fields": [
+            {
+              "label": "Videofiler",
+              "description": "Vel videofilane du ønsker å bruke i din interaktive video. For best mulig browserstøtte bør du ihvertfall laste opp en versjon av videoen i både webm og mp4 format."
+            },
+            {
+              "label": "Tittel",
+              "default": "Interaktiv video",
+              "description": "Brukes i oppsummeringer, statistikk o.l."
+            },
+            {
+              "label": "Video startskjerm innstillinger",
+              "fields": [
+                {
+                  "label": "Skjul tittel på startskjerm"
+                },
+                {
+                  "label": "Kort beskrivelse (Valgfri)",
+                  "description": "Valgfri. Viser en kort beskrivelse når en video lastes."
+                }
+              ]
+            },
+            {
+              "label": "Opphavsrettsinformasjon",
+              "description": "Informasjon om opphavsrett for videoen og andre elementar brukt i interaksjonane."
+            }
+          ]
+        },
+        {
+          "label": "Legg til interaksjonar",
+          "field": {
+            "fields": [
+              {
+                "label": "Visningstid"
+              },
+              {
+                "label": "Pause",
+                "description": "Sett avspillinga på pause mens denne interaksjonen vises."
+              },
+              {
+                "label": "Vis som ein interaktiv knapp",
+                "description": "Brukaren må åpne interaktiviteten."
+              },
+              {
+                "label": "Ledetekst",
+                "description": "Ledetekst som vises ved sida av interaksjonsikonet."
+              }
+            ]
+          }
+        },
+        {
+          "label": "Oppsummeringsoppgave",
+          "fields": [
+            {
+            },
+            {
+              "label": "Visningstid",
+              "description": "Antall sekunder før videoen slutter."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Innstillinger for \"Vis svar\" knapp og \"Prøv igjen\".",
+      "description": "Disse instillingene lar deg overstyre når \"Vis svar\" knapp og \"Prøv igjen\" er slått på i integrert h5p innhald.",
+      "fields": [
+        {
+          "label": "Slå på overstyring for \"Vis svar\" og \"Prøv igjen\".",
+          "description": "Aktivering vil overstyre dei følgjande innstillingene for integrert innhald."
+        },
+        {
+          "label": "Slå på \"Vis svar\" knapp.",
+          "description": "Aktivering vil slå på \"Vis svar\" knappen."
+        },
+        {
+          "label": "Slå på \"Prøv igjen\".",
+          "description": "Aktivering vil slå på \"Prøv igjen\" ."
+        }
+      ]
+    },
+    {
+      "label": "Interaksjonstittel",
+      "default": "Interaksjon"
+    },
+    {
+      "label": "Spel av-tittel",
+      "default": "Spel av"
+    },
+    {
+      "label": "Pause-tittel",
+      "default": "Pause"
+    },
+    {
+      "label": "Lyd av-tittel",
+      "default": "Lyd av"
+    },
+    {
+      "label": "Lyd på-tittel",
+      "default": "Lyd på"
+    },
+    {
+      "label": "Videokvalitetstittel",
+      "default": "Videokvalitet"
+    },
+    {
+      "label": "Fullskjermstittel",
+      "default": "Fullskjerm"
+    },
+    {
+      "label": "Avslutt fullskjerm-tittel",
+      "default": "Avslutt fullskjerm"
+    },
+    {
+      "label": "Oppsummeringstittel",
+      "default": "Oppsummering"
+    },
+    {
+      "label": "Bokmerketittel",
+      "default": "Bokmerker"
+    },
+    {
+      "label": "Standard merkelapp for adaptivitetssøkeknappen",
+      "default": "Fortsett"
+    }
+  ]
+}

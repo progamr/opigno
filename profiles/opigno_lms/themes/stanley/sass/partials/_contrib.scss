@@ -1,0 +1,46 @@
+// ---------------------------------------------------------------------------
+// WYSIWYG & text filter
+
+.text-format-wrapper {
+  position: relative;
+}
+
+.wysiwyg-toggle-wrapper {
+  font-size: 11px;
+  position: absolute;
+  margin-top: 5px;
+  right: 11px;
+  z-index: 100;
+}
+
+body.cke_editable {
+  padding: 8px;
+}
+
+.filter-wrapper {
+  @include border-top-radius(0);
+  background: $primaryLightGray;
+  color: $textMuted;
+  padding: 0.5em 0 0.75em 0;
+  margin-bottom: 1em;
+
+  .filter-help {
+    margin-top: 1.5em;
+    padding-right: 10px;
+
+    a {
+      background-position: left center;
+      padding-right: 0;
+    }
+  }
+}
+
+.filter-wrapper label,
+.filter-wrapper p,
+.filter-wrapper select {
+  font-size: 11px;
+  height: 22px;
+  line-height: 22px;
+  padding: 1px;
+  margin-bottom: 0;
+}
